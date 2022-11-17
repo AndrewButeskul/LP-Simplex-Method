@@ -11,7 +11,7 @@ namespace Simplex
         public double[] vars;
         public double b;
         public string sign;
-
+        public double[] S;
         public Constraint(double[] vars, double b, string sign)
         {
             if (sign == "=")
