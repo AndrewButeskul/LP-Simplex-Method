@@ -18,12 +18,7 @@ namespace Simplex
             this.c = c;
             this.index = index;
         }
-
-       /* public double C { get; set; }
-        public double Index { get; set; }*/
-
-        //public double C => c;
-
+              
         public double C { 
             set { c = value; } 
             get { return c; }
@@ -34,9 +29,6 @@ namespace Simplex
             set { index = value; }
             get { return index; }   
         }
-       // public double Index => index;
-
-
-
+       
     }
 }

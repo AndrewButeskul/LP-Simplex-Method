@@ -134,14 +134,15 @@
             // 
             this.dataGridViewSimplex.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.dataGridViewSimplex.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dataGridViewSimplex.BackgroundColor = System.Drawing.SystemColors.ButtonFace;
             this.dataGridViewSimplex.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewSimplex.GridColor = System.Drawing.SystemColors.Control;
-            this.dataGridViewSimplex.Location = new System.Drawing.Point(27, 305);
+            this.dataGridViewSimplex.Location = new System.Drawing.Point(27, 318);
             this.dataGridViewSimplex.Name = "dataGridViewSimplex";
             this.dataGridViewSimplex.RowHeadersWidth = 51;
             this.dataGridViewSimplex.RowTemplate.Height = 29;
-            this.dataGridViewSimplex.Size = new System.Drawing.Size(789, 288);
+            this.dataGridViewSimplex.Size = new System.Drawing.Size(789, 426);
             this.dataGridViewSimplex.TabIndex = 8;
             // 
             // label3
@@ -196,7 +197,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(845, 615);
+            this.ClientSize = new System.Drawing.Size(845, 766);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.dataGridViewFunc);
             this.Controls.Add(this.label4);

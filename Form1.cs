@@ -115,7 +115,7 @@ namespace Simplex
                 result = Math.Round(S[0], 2);
                 ReWriteTable(simplex, funcVars, C, S);
                 FindDirectColumn(S);
-                directRow = FindDirectRow(constraints);
+                directRow = FindDirectRow(simplex);
                 ReplaceBasis(C, funcVars);
             }
             else
@@ -128,10 +128,10 @@ namespace Simplex
 
                 if (!findSolution)
                 {
-                    directRow = FindDirectRow(constraints);
+                    directRow = FindDirectRow(simplex);
                     ReplaceBasis(C, funcVars);
                     CopySimplex(simplex, constraints);
-                }                
+                }
             }
         }
 
@@ -148,12 +148,12 @@ namespace Simplex
                 {
                     if (i == directRow && j == directColumn)
                         simplex[i][j] = 1;
-                    if (i == directRow && j != directColumn)
+                    else if (i == directRow && j != directColumn)
                         simplex[i][j] = simplexApend[i][j] / simplexApend[directRow][directColumn];
 
-                    if (j == directColumn && i != directRow)
+                    else if (j == directColumn && i != directRow)
                         simplex[i][j] = 0;
-                    if (i != directRow && j != directColumn)
+                    else if (i != directRow && j != directColumn)
                         simplex[i][j] = simplexApend[i][j] - (simplexApend[i][directColumn] *
                             simplexApend[directRow][j] / simplexApend[directRow][directColumn]);
 
@@ -204,17 +204,17 @@ namespace Simplex
             C[directRow].C = funcVars[directColumn - 1];
             C[directRow].Index = directColumn;
         }
-        public int FindDirectRow(Constraint[] constraints)
+        public int FindDirectRow(double[][] simplex)
         {
             int index = 0;
             double value = 0;
             double temp = double.MaxValue;
-            for (int i = 0; i < constraints.Count(); i++)
+            for (int i = 0; i < simplex.Count(); i++)
             {
-                if (constraints[i].vars[directColumn - 1] < 0)
+                if (simplex[i][directColumn] < 0)
                     continue;
 
-                value = constraints[i].b / constraints[i].vars[directColumn - 1];
+                value = simplex[i][0] / simplex[i][directColumn];
                 if (value < temp && value > 0)
                 {
                     temp = value;
@@ -251,7 +251,7 @@ namespace Simplex
 
         public void ReWriteTable(double[][] simplex, double[] funcVars, Basis[] C, double[] S)
         {
-            
+
             string[] firstRow = new string[quantityVariables + 3];
             firstRow[0] = "C";
             firstRow[1] = "Xp";
@@ -271,7 +271,7 @@ namespace Simplex
                         tempRow[j] = C[i - 1].C.ToString();
 
                     else if (j == 1)
-                        tempRow[j] = $"X{C[i - 1].Index + 1}";
+                        tempRow[j] = $"X{C[i - 1].Index}";
                     else
                         tempRow[j] = Math.Round(simplex[i - 1][j - 2], 2).ToString();
                 }
@@ -285,7 +285,9 @@ namespace Simplex
             {
                 SRow[i] = Math.Round(S[i - 2], 2).ToString();
             }
-            dataGridViewSimplex.Rows.Add(S);
+            dataGridViewSimplex.Rows.Add(SRow);
+
+            dataGridViewSimplex.Rows.Add(new String[quantityVariables + 3]);
 
         }
 
@@ -311,7 +313,6 @@ namespace Simplex
         }
         public void ReadData(Constraint[] constraints, double[] funcVars, Basis[] C)
         {
-
             for (int i = 0; i < quantityConstraints; i++)
             {
                 double b = double.Parse((string)dataGridViewEquation.Rows[i].Cells[quantityVariables + 1].Value);
@@ -322,13 +323,10 @@ namespace Simplex
                 {
                     vars[j] = double.Parse((string)dataGridViewEquation.Rows[i].Cells[j].Value);
                     funcVars[j] = double.Parse((string)dataGridViewFunc.Rows[0].Cells[j].Value);
-
-                    if (funcVars[j] == 0)
-                    {
-                        C[i] = new Basis(funcVars[j], j);
-                    }
                 }
                 constraints[i] = new Constraint(vars, b, sign);
+
+                C[i] = new Basis(funcVars[(quantityVariables - quantityConstraints) + i], (quantityVariables - quantityConstraints) + i);
             }
         }
         private void buttonClear_Click(object sender, EventArgs e)
